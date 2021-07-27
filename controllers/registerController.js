@@ -4,18 +4,18 @@ const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 
 const registerController = {
-    async register(req, res, next) {
+    async register(req, res) {
 
-        const { username, email, password , repeatPassword } = req.body;
+        const { username, email, password } = req.body;
 
-        const registerSchema = Joi.object({
+        const registerSchema = Joi.object({                                                        
             username: Joi.string().min(3).max(30).required(),
             email: Joi.string().email().required(),
             password: Joi.string().pattern(new RegExp('^[a-zA-Z0-9]{3,30}$')).required(),
             repeatPassword: Joi.ref('password')
-        });
+        });                                
 
-        try {
+        try {             
             const exist = await User.exists({ email: req.body.email });
             if (exist) {
                 res.send('This email is already taken.');
@@ -36,12 +36,12 @@ const registerController = {
         if (error) {
             res.send(error)
             }
-        else {
+        else {                      
             const userDetails =  await user.save() 
                 jwt.sign({userDetails},'secretcode@123',(err, token) =>{
                     res.status(201).json({token})
                 })
-            }
+            }                            
         }
 }
 

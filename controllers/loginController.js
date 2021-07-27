@@ -4,7 +4,7 @@ const User = require('../models/users');
 const jwt = require('jsonwebtoken');
 
 const loginController = {
-    async login(req, res, next) {
+    async login(req, res) {
 
         const loginSchema = Joi.object({
             email: Joi.string().email().required(),

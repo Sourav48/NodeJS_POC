@@ -2,7 +2,7 @@ const Product = require('../models/products')
 const Cart = require('../models/cart')
 const joi = require('joi');
 
-const getCartItems = async (req, res, next) => {
+const getCartItems = async (req, res) => {
 
   try {
     const userCart = await Cart.findOne({ user: req.params.id });
@@ -95,8 +95,8 @@ const updateCartItems = async (req, res, next) => {
   try {
     const updatedItem = await Cart.findOneAndUpdate(
       { user: req.params.id, 'products.prodDetails': req.body.prodName },
-      { $set: { 'products.$.quantity': req.body.quantity }, },
-      { new: true, }
+      { $set: { 'products.$.quantity': req.body.quantity } },
+      { new: true }
     );
 
     if (!updatedItem) {
